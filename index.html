@@ -2,11 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Memory game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>CodersLab</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </head>
 <body>
-    <div id="app"></div>
-    <script src="js/out.js"></script>
+    <header class="container">
+        <div>
+            <p>Memory z tabliczką mnożenia !!</p>
+        </div>
+    </header>
+    <section class="container">
+        <h1>Twoje zadanie:</h1>
+        <p>opis zadania</p>
+        <div class="game"></div>
+        <button class="start">Zacznij grę !</button>
+    </section>
+    <footer>
+        <div class="points"></div>
+        <div class="moves"></div>
+    </footer>
 </body>
+<script src="js/out.js"></script>
 </html>
