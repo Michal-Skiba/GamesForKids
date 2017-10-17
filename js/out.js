@@ -70,7 +70,69 @@
 "use strict";
 
 
-console.log("haha");
+$(function () {
+
+    var numberOfTiles = 20;
+    var tilesOnRow = 5;
+    var moves = 0;
+    var tiles = [];
+    var takenTiles = [];
+    var canTake = 'true';
+    var max = 20;
+    var min = 1;
+    var resultTiles = [];
+    var multiplicationTiles = [];
+    var gameTab = [];
+
+    var startGame = function startGame() {
+        var board = $('.game').empty();
+
+        canTake = 'true';
+        moves = 0;
+        takenTiles = [];
+        tiles = [];
+
+        for (var i = 0; i < numberOfTiles / 2; i++) {
+            // Create answer and question array
+            var number1 = Math.floor(Math.random() * (max - min + 1) + min);
+            var number2 = Math.floor(Math.random() * (max - min + 1) + min);
+            var multiplicateString = number1 + " X " + number2;
+            var result = number1 * number2;
+            multiplicationTiles.push(multiplicateString);
+            resultTiles.push(result);
+        }
+        for (var _i = 0; _i < numberOfTiles / 2; _i++) {
+            //Make one array for question and answer array
+            gameTab.push(multiplicationTiles[_i]);
+            gameTab.push(resultTiles[_i]);
+        }
+        gameTab.sort(function () {
+            return Math.random() - 0.5;
+        }); // mixing array
+
+    };
+    startGame();
+    console.log(multiplicationTiles);
+    console.log(multiplicationTiles.sort(function () {
+        return Math.random() - 0.5;
+    })); // mieszanie tablicy
+    console.log(resultTiles);
+    console.log(gameTab);
+
+    /* Math.floor( Math.random() * ( max - min + 1 ) + min );*/
+
+    /*$(selector).each(function(index,element))*/
+
+    /*
+        class Game {
+            constructor(){
+    
+    
+            }
+    
+        }
+        */
+});
 
 /***/ })
 /******/ ]);
