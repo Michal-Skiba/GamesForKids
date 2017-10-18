@@ -1,12 +1,11 @@
-$(function(){
-
     const numberOfTiles = 20;
     const tilesOnRow = 5;
     let moves = 0;
+    let points = 0;
     let tiles = [];
     let takenTiles = [];
     let canTake = 'true';
-    let max = 20;
+    let max = 8;
     let min = 1;
     let resultTiles = [];
     let multiplicationTiles = [];
@@ -17,19 +16,25 @@ $(function(){
         console.log(board);
         canTake = 'true';
         moves = 0;
+        resultTiles = []; //Clean arrays
+        multiplicationTiles = [];
         takenTiles = [];
         tiles = [];
         let tileWidth = 100/tilesOnRow;
         let tileHeight = 100 / (numberOfTiles/tilesOnRow);
 
-        for(let i=0; i<numberOfTiles/2; i++){ // Create answer and question array
+        while(numberOfTiles/2>resultTiles.length){ // Create answer and question array
             let number1 = Math.floor( Math.random() * ( max - min + 1 ) + min );
             let number2 = Math.floor( Math.random() * ( max - min + 1 ) + min );
             let multiplicateString = number1 + " X " + number2;
             let result = number1 * number2;
-            multiplicationTiles.push(multiplicateString);
-            resultTiles.push(result);
+
+            if(resultTiles.indexOf(result) === -1) {
+                multiplicationTiles.push(multiplicateString);
+                resultTiles.push(result);
+            }
         }
+
         for(let i=0; i<numberOfTiles/2; i++){ //Make one array for question and answer array
             gameTab.push(multiplicationTiles[i]);
             gameTab.push(resultTiles[i]);
@@ -39,9 +44,9 @@ $(function(){
 
         let reverseStringToNumber = (str) => {
             let reversed = str.split("").reverse().join(""); // reverse string
-            let cutString = reversed.substr(0,str.indexOf(' ')).split("").reverse().join("");
-            let Number = parseInt(cutString); //parse int reversed string, make one more time to string reverse and pars
-            return parseInt(Number)
+            let cutString = reversed.substr(0,reversed.indexOf(' ')).split("").reverse().join("");
+            let numberStr = parseInt(cutString); //parse int reversed string, make one more time to string reverse and pars
+            return (numberStr)
         };
 
 
@@ -61,7 +66,7 @@ $(function(){
             }
             tile.css('width', `${(tileWidth)}`+"%");
             tile.css('height', `${(tileHeight)}`+"%");
-            tile.css('border', "1px solid red"); //Helples later DELETE !!
+            tile.css('border', "1px solid red"); //Helples later DELETE or not !!
             tile.on('click',function() {tileClick($(this))}); // listener to tiles
         }
 
@@ -73,18 +78,17 @@ $(function(){
                 element.css('background', 'yellow');
                 element.find('p').css('display', 'block');
                 takenTiles.push(element);
-                console.log(takenTiles)
-            }else if(takenTiles.length === 2){
+            }
+            if(takenTiles.length === 2){
                 canTake = false;
-                console.log("pełne");
                 if (takenTiles[0].data('result') === takenTiles[1].data('result')) {
                     window.setTimeout(function() {
-                        usunKafelki(); // Dopisać funkcje !!!!!!!!!!!!!!!!!!!!!!
+                        removeTiles();
                     }, 500);
-                } else {
+                }else {
                     window.setTimeout(function() {
-                        zresetujKafelki(); // Dopisać funkcje!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    }, 500);
+                        resetTiles();
+                    }, 1500);
                 }
                 moves++;
                 //$('.moves').html(moves) // I HAVE TO ADD THIS TO HTML LATER !!!!!!!!!!!!!!!!
@@ -92,14 +96,31 @@ $(function(){
         }
     };
 
-    $('.start').on( "click", function() {
-        startGame(); // Domcontent loader only for this later !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    });
-    let board = $('.game')
-    let tiless = $('<div class="tille"></div>');
-    board.append(tiless)
-    tiless.attr("data-xyz", 10);
-    console.log(tiles.data("xyz"))
+    let removeTiles = () =>{
+        takenTiles[0].css('background', 'blue');
+        takenTiles[0].find('p').css("display", "none");
+        takenTiles[1].css('background', 'blue');
+        takenTiles[1].find('p').css("display", "none");
+        canTake = true;
+        takenTiles = [];
+        points++;
+        if (points >= numberOfTiles / 2) {
+                alert('Gratulacje ! Skończyłeś w ' + moves + "ruchach");
+        }
+    };
 
+    let resetTiles = () =>{
+        takenTiles[0].css('background', "url('../assets/math.png') no-repeat center/cover");
+        takenTiles[1].css('background', "url('../assets/math.png') no-repeat center/cover");
+        takenTiles[1].find('p').css('display', 'none');
+        takenTiles[0].find('p').css('display', 'none');
+        takenTiles = [];
+        canTake = true;
+    };
+
+    $(function(){
+    $('.start').on( "click", function() {
+        startGame();
+    });
 
 });

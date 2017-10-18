@@ -70,114 +70,136 @@
 "use strict";
 
 
-$(function () {
+var numberOfTiles = 20;
+var tilesOnRow = 5;
+var moves = 0;
+var points = 0;
+var tiles = [];
+var takenTiles = [];
+var canTake = 'true';
+var max = 8;
+var min = 1;
+var resultTiles = [];
+var multiplicationTiles = [];
+var gameTab = [];
 
-    var numberOfTiles = 20;
-    var tilesOnRow = 5;
-    var moves = 0;
-    var tiles = [];
-    var takenTiles = [];
-    var canTake = 'true';
-    var max = 20;
-    var min = 1;
-    var resultTiles = [];
-    var multiplicationTiles = [];
-    var gameTab = [];
+var startGame = function startGame() {
+    var board = $('.game').empty(); // Clean game board
+    console.log(board);
+    canTake = 'true';
+    moves = 0;
+    resultTiles = []; //Clean arrays
+    multiplicationTiles = [];
+    takenTiles = [];
+    tiles = [];
+    var tileWidth = 100 / tilesOnRow;
+    var tileHeight = 100 / (numberOfTiles / tilesOnRow);
 
-    var startGame = function startGame() {
-        var board = $('.game').empty(); // Clean game board
-        console.log(board);
-        canTake = 'true';
-        moves = 0;
-        takenTiles = [];
-        tiles = [];
-        var tileWidth = 100 / tilesOnRow;
-        var tileHeight = 100 / (numberOfTiles / tilesOnRow);
+    while (numberOfTiles / 2 > resultTiles.length) {
+        // Create answer and question array
+        var number1 = Math.floor(Math.random() * (max - min + 1) + min);
+        var number2 = Math.floor(Math.random() * (max - min + 1) + min);
+        var multiplicateString = number1 + " X " + number2;
+        var result = number1 * number2;
 
-        for (var i = 0; i < numberOfTiles / 2; i++) {
-            // Create answer and question array
-            var number1 = Math.floor(Math.random() * (max - min + 1) + min);
-            var number2 = Math.floor(Math.random() * (max - min + 1) + min);
-            var multiplicateString = number1 + " X " + number2;
-            var result = number1 * number2;
+        if (resultTiles.indexOf(result) === -1) {
             multiplicationTiles.push(multiplicateString);
             resultTiles.push(result);
         }
-        for (var _i = 0; _i < numberOfTiles / 2; _i++) {
-            //Make one array for question and answer array
-            gameTab.push(multiplicationTiles[_i]);
-            gameTab.push(resultTiles[_i]);
+    }
+
+    for (var i = 0; i < numberOfTiles / 2; i++) {
+        //Make one array for question and answer array
+        gameTab.push(multiplicationTiles[i]);
+        gameTab.push(resultTiles[i]);
+    }
+
+    gameTab.sort(function () {
+        return Math.random() - 0.5;
+    }); // mixing array
+
+    var reverseStringToNumber = function reverseStringToNumber(str) {
+        var reversed = str.split("").reverse().join(""); // reverse string
+        var cutString = reversed.substr(0, reversed.indexOf(' ')).split("").reverse().join("");
+        var numberStr = parseInt(cutString); //parse int reversed string, make one more time to string reverse and pars
+        return numberStr;
+    };
+
+    for (var _i = 0; _i < numberOfTiles; _i++) {
+        //Add tiles to board
+        var tile = $('<div class="tile"></div>').attr('data-index', _i);
+        var tileInscription = $('<p></p>');
+        tileInscription.append(gameTab[_i]);
+        tile.append(tileInscription);
+        board.append(tile);
+        if (typeof gameTab[_i] === 'string') {
+            // Add to data result
+            var firstNumber = parseInt(gameTab[_i]);
+            var secondNumber = reverseStringToNumber(gameTab[_i]);
+            var _result = secondNumber * firstNumber;
+            tile.attr('data-result', _result);
+        } else {
+            tile.attr('data-result', gameTab[_i]);
         }
-
-        gameTab.sort(function () {
-            return Math.random() - 0.5;
-        }); // mixing array
-
-        var reverseStringToNumber = function reverseStringToNumber(str) {
-            var reversed = str.split("").reverse().join(""); // reverse string
-            var cutString = reversed.substr(0, str.indexOf(' ')).split("").reverse().join("");
-            var Number = parseInt(cutString); //parse int reversed string, make one more time to string reverse and pars
-            return parseInt(Number);
-        };
-
-        for (var _i2 = 0; _i2 < numberOfTiles; _i2++) {
-            //Add tiles to board
-            var tile = $('<div class="tile"></div>').attr('data-index', _i2);
-            var tileInscription = $('<p></p>');
-            tileInscription.append(gameTab[_i2]);
-            tile.append(tileInscription);
-            board.append(tile);
-            if (typeof gameTab[_i2] === 'string') {
-                // Add to data result
-                var firstNumber = parseInt(gameTab[_i2]);
-                var secondNumber = reverseStringToNumber(gameTab[_i2]);
-                var _result = secondNumber * firstNumber;
-                tile.attr('data-result', _result);
+        tile.css('width', '' + tileWidth + "%");
+        tile.css('height', '' + tileHeight + "%");
+        tile.css('border', "1px solid red"); //Helples later DELETE or not !!
+        tile.on('click', function () {
+            tileClick($(this));
+        }); // listener to tiles
+    }
+};
+var tileClick = function tileClick(element) {
+    if (canTake) {
+        if ((takenTiles.length === 0 || takenTiles[0].data("index") !== element.data("index")) && takenTiles.length < 2) {
+            console.log(element.data("index"));
+            element.css('background', 'yellow');
+            element.find('p').css('display', 'block');
+            takenTiles.push(element);
+        }
+        if (takenTiles.length === 2) {
+            canTake = false;
+            if (takenTiles[0].data('result') === takenTiles[1].data('result')) {
+                window.setTimeout(function () {
+                    removeTiles();
+                }, 500);
             } else {
-                tile.attr('data-result', gameTab[_i2]);
+                window.setTimeout(function () {
+                    resetTiles();
+                }, 1500);
             }
-            tile.css('width', '' + tileWidth + "%");
-            tile.css('height', '' + tileHeight + "%");
-            tile.css('border', "1px solid red"); //Helples later DELETE !!
-            tile.on('click', function () {
-                tileClick($(this));
-            }); // listener to tiles
+            moves++;
+            //$('.moves').html(moves) // I HAVE TO ADD THIS TO HTML LATER !!!!!!!!!!!!!!!!
         }
-    };
-    var tileClick = function tileClick(element) {
-        if (canTake) {
-            if ((takenTiles.length === 0 || takenTiles[0].data("index") !== element.data("index")) && takenTiles.length < 2) {
-                console.log(element.data("index"));
-                element.css('background', 'yellow');
-                element.find('p').css('display', 'block');
-                takenTiles.push(element);
-                console.log(takenTiles);
-            } else if (takenTiles.length === 2) {
-                canTake = false;
-                console.log("pełne");
-                if (takenTiles[0].data('result') === takenTiles[1].data('result')) {
-                    window.setTimeout(function () {
-                        usunKafelki(); // Dopisać funkcje !!!!!!!!!!!!!!!!!!!!!!
-                    }, 500);
-                } else {
-                    window.setTimeout(function () {
-                        zresetujKafelki(); // Dopisać funkcje!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    }, 500);
-                }
-                moves++;
-                //$('.moves').html(moves) // I HAVE TO ADD THIS TO HTML LATER !!!!!!!!!!!!!!!!
-            }
-        }
-    };
+    }
+};
 
+var removeTiles = function removeTiles() {
+    takenTiles[0].css('background', 'blue');
+    takenTiles[0].find('p').css("display", "none");
+    takenTiles[1].css('background', 'blue');
+    takenTiles[1].find('p').css("display", "none");
+    canTake = true;
+    takenTiles = [];
+    points++;
+    if (points >= numberOfTiles / 2) {
+        alert('Gratulacje ! Skończyłeś w ' + moves + "ruchach");
+    }
+};
+
+var resetTiles = function resetTiles() {
+    takenTiles[0].css('background', "url('../assets/math.png') no-repeat center/cover");
+    takenTiles[1].css('background', "url('../assets/math.png') no-repeat center/cover");
+    takenTiles[1].find('p').css('display', 'none');
+    takenTiles[0].find('p').css('display', 'none');
+    takenTiles = [];
+    canTake = true;
+};
+
+$(function () {
     $('.start').on("click", function () {
-        startGame(); // Domcontent loader only for this later !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        startGame();
     });
-    var board = $('.game');
-    var tiless = $('<div class="tille"></div>');
-    board.append(tiless);
-    tiless.attr("data-xyz", 10);
-    console.log(tiles.data("xyz"));
 });
 
 /***/ })
