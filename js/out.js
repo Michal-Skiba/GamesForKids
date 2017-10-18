@@ -115,13 +115,14 @@ $(function () {
 
         var reverseStringToNumber = function reverseStringToNumber(str) {
             var reversed = str.split("").reverse().join(""); // reverse string
-            var cutNumber = parseInt(reversed).toString().split("").reverse().join(""); //parse int reversed string, make one more time to string reverse and pars
-            return parseInt(cutNumber);
+            var cutString = reversed.substr(0, str.indexOf(' ')).split("").reverse().join("");
+            var Number = parseInt(cutString); //parse int reversed string, make one more time to string reverse and pars
+            return parseInt(Number);
         };
 
         for (var _i2 = 0; _i2 < numberOfTiles; _i2++) {
             //Add tiles to board
-            var tile = $('<div class="tile"></div>').attr('index', _i2);
+            var tile = $('<div class="tile"></div>').attr('data-index', _i2);
             var tileInscription = $('<p></p>');
             tileInscription.append(gameTab[_i2]);
             tile.append(tileInscription);
@@ -130,28 +131,53 @@ $(function () {
                 // Add to data result
                 var firstNumber = parseInt(gameTab[_i2]);
                 var secondNumber = reverseStringToNumber(gameTab[_i2]);
-                console.log(firstNumber);
-                console.log(secondNumber);
                 var _result = secondNumber * firstNumber;
-                tile.attr('result', _result);
+                tile.attr('data-result', _result);
             } else {
-                tile.attr('result', gameTab[_i2]);
+                tile.attr('data-result', gameTab[_i2]);
             }
             tile.css('width', '' + tileWidth + "%");
             tile.css('height', '' + tileHeight + "%");
             tile.css('border', "1px solid red"); //Helples later DELETE !!
+            tile.on('click', function () {
+                tileClick($(this));
+            }); // listener to tiles
         }
-        $('.tile').on("click", function () {
-            $(this).css('background', 'yellow');
-            $(this).find('p').css('display', 'block');
-        });
+    };
+    var tileClick = function tileClick(element) {
+        if (canTake) {
+            if ((takenTiles.length === 0 || takenTiles[0].data("index") !== element.data("index")) && takenTiles.length < 2) {
+                console.log(element.data("index"));
+                element.css('background', 'yellow');
+                element.find('p').css('display', 'block');
+                takenTiles.push(element);
+                console.log(takenTiles);
+            } else if (takenTiles.length === 2) {
+                canTake = false;
+                console.log("pełne");
+                if (takenTiles[0].data('result') === takenTiles[1].data('result')) {
+                    window.setTimeout(function () {
+                        usunKafelki(); // Dopisać funkcje !!!!!!!!!!!!!!!!!!!!!!
+                    }, 500);
+                } else {
+                    window.setTimeout(function () {
+                        zresetujKafelki(); // Dopisać funkcje!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    }, 500);
+                }
+                moves++;
+                //$('.moves').html(moves) // I HAVE TO ADD THIS TO HTML LATER !!!!!!!!!!!!!!!!
+            }
+        }
     };
 
-    $('.title p').css('display', 'none');
-
     $('.start').on("click", function () {
-        startGame();
+        startGame(); // Domcontent loader only for this later !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     });
+    var board = $('.game');
+    var tiless = $('<div class="tille"></div>');
+    board.append(tiless);
+    tiless.attr("data-xyz", 10);
+    console.log(tiles.data("xyz"));
 });
 
 /***/ })
