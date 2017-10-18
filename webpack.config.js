@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry : {
-        'js/out.js': './js/app.jsx',
+        'js/out.js': './js/app.js',
         'css/style.css~': './css/main.scss'
     },
     output : {
@@ -19,16 +19,16 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.jsx$/, exclude: /node_modules/,
+                test: /\.js$/, exclude: /node_modules/,
                 loader:	'babel-loader',
-                query: { presets: ['es2015','stage-2', 'react'] }
+                query: { presets: ['es2015'] }
             },
             {
                 test: /\.scss$/,
                 exclude: /node_modules/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: ['css-loader', 'sass-loader']
+                    use: ['css-loader', 'resolve-url-loader' ,'sass-loader?sourceMap=true', ]
                 })
 
             },
@@ -38,7 +38,12 @@ module.exports = {
                 use: [
                     {
                         loader: 'file-loader',
-                        options: {}
+                        options: {
+                            emitFile: true,
+                            name: 'assets/[name].[ext]',
+                            context: '',
+                            publicPath: '/'
+                        }
                     }
                 ]
             }

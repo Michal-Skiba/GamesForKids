@@ -70,6 +70,8 @@
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 $(function () {
 
     var numberOfTiles = 20;
@@ -85,12 +87,14 @@ $(function () {
     var gameTab = [];
 
     var startGame = function startGame() {
-        var board = $('.game').empty();
-
+        var board = $('.game').empty(); // Clean game board
+        console.log(board);
         canTake = 'true';
         moves = 0;
         takenTiles = [];
         tiles = [];
+        var tileWidth = 100 / tilesOnRow;
+        var tileHeight = 100 / (numberOfTiles / tilesOnRow);
 
         for (var i = 0; i < numberOfTiles / 2; i++) {
             // Create answer and question array
@@ -106,12 +110,30 @@ $(function () {
             gameTab.push(multiplicationTiles[_i]);
             gameTab.push(resultTiles[_i]);
         }
+
         gameTab.sort(function () {
             return Math.random() - 0.5;
         }); // mixing array
 
+        for (var _i2 = 0; _i2 < numberOfTiles; _i2++) {
+            //Add tiles to board
+            var tile = $('<div class="tile"></div>').attr('index', _i2);
+            var tileInscription = $('<p></p>');
+            if (_typeof(gameTab[_i2]) === String) {}
+            tileInscription.append(gameTab[_i2]);
+            tile.append(tileInscription);
+            board.append(tile);
+            tile.css('width', '' + tileWidth + "%");
+            tile.css('height', '' + tileHeight + "%");
+            tile.css('border', "1px solid red"); //Helples later DELETE !!
+        }
+        $('.tile').on("click", function () {
+            $(this).css('background', 'yellow');
+            $(this).find('p').css('display', 'block');
+        });
     };
-    startGame();
+
+    $('.title p').css('display', 'none');
     console.log(multiplicationTiles);
     console.log(multiplicationTiles.sort(function () {
         return Math.random() - 0.5;
@@ -119,19 +141,16 @@ $(function () {
     console.log(resultTiles);
     console.log(gameTab);
 
-    /* Math.floor( Math.random() * ( max - min + 1 ) + min );*/
-
-    /*$(selector).each(function(index,element))*/
-
-    /*
-        class Game {
-            constructor(){
-    
-    
-            }
-    
-        }
-        */
+    $('.start').on("click", function () {
+        startGame();
+    });
+    var numbertest = "278 X 292";
+    var x = parseInt(numbertest);
+    console.log(x.length);
+    var y = parseInt(numbertest.slice(x.length + 6));
+    // parseInt("column5".slice(-1), 10);
+    console.log(x);
+    console.log(y);
 });
 
 /***/ })
