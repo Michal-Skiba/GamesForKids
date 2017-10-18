@@ -70,8 +70,6 @@
 "use strict";
 
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 $(function () {
 
     var numberOfTiles = 20;
@@ -115,14 +113,30 @@ $(function () {
             return Math.random() - 0.5;
         }); // mixing array
 
+        var reverseStringToNumber = function reverseStringToNumber(str) {
+            var reversed = str.split("").reverse().join(""); // reverse string
+            var cutNumber = parseInt(reversed).toString().split("").reverse().join(""); //parse int reversed string, make one more time to string reverse and pars
+            return parseInt(cutNumber);
+        };
+
         for (var _i2 = 0; _i2 < numberOfTiles; _i2++) {
             //Add tiles to board
             var tile = $('<div class="tile"></div>').attr('index', _i2);
             var tileInscription = $('<p></p>');
-            if (_typeof(gameTab[_i2]) === String) {}
             tileInscription.append(gameTab[_i2]);
             tile.append(tileInscription);
             board.append(tile);
+            if (typeof gameTab[_i2] === 'string') {
+                // Add to data result
+                var firstNumber = parseInt(gameTab[_i2]);
+                var secondNumber = reverseStringToNumber(gameTab[_i2]);
+                console.log(firstNumber);
+                console.log(secondNumber);
+                var _result = secondNumber * firstNumber;
+                tile.attr('result', _result);
+            } else {
+                tile.attr('result', gameTab[_i2]);
+            }
             tile.css('width', '' + tileWidth + "%");
             tile.css('height', '' + tileHeight + "%");
             tile.css('border', "1px solid red"); //Helples later DELETE !!
@@ -134,23 +148,10 @@ $(function () {
     };
 
     $('.title p').css('display', 'none');
-    console.log(multiplicationTiles);
-    console.log(multiplicationTiles.sort(function () {
-        return Math.random() - 0.5;
-    })); // mieszanie tablicy
-    console.log(resultTiles);
-    console.log(gameTab);
 
     $('.start').on("click", function () {
         startGame();
     });
-    var numbertest = "278 X 292";
-    var x = parseInt(numbertest);
-    console.log(x.length);
-    var y = parseInt(numbertest.slice(x.length + 6));
-    // parseInt("column5".slice(-1), 10);
-    console.log(x);
-    console.log(y);
 });
 
 /***/ })

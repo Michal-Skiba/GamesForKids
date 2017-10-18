@@ -37,47 +37,44 @@ $(function(){
 
         gameTab.sort(function() { return Math.random() - 0.5 }); // mixing array
 
+        let reverseStringToNumber = (str) => {
+            let reversed = str.split("").reverse().join(""); // reverse string
+            let cutNumber = parseInt(reversed).toString().split("").reverse().join(""); //parse int reversed string, make one more time to string reverse and pars
+            return parseInt(cutNumber)
+        };
+
+
         for(let i=0; i<numberOfTiles; i++) { //Add tiles to board
             let tile = $('<div class="tile"></div>').attr('index', i);
             let tileInscription = $('<p></p>');
-            if(typeof gameTab[i] === String){
-
-            }
             tileInscription.append(gameTab[i]);
             tile.append(tileInscription);
             board.append(tile);
+            if(typeof gameTab[i] === 'string'){ // Add to data result
+                let firstNumber =parseInt(gameTab[i]);
+                let secondNumber = reverseStringToNumber(gameTab[i]);
+                console.log(firstNumber);
+                console.log(secondNumber);
+                let result = secondNumber * firstNumber;
+                tile.attr('result', result);
+            }else{
+                tile.attr('result', gameTab[i])
+            }
             tile.css('width', `${(tileWidth)}`+"%");
             tile.css('height', `${(tileHeight)}`+"%");
             tile.css('border', "1px solid red"); //Helples later DELETE !!
         }
         $('.tile').on( "click", function() {
             $(this).css('background', 'yellow');
-            $(this).find('p').css('display', 'block')
-
+            $(this).find('p').css('display', 'block');
         });
     };
 
-
-
     $('.title p').css('display', 'none');
-    console.log(multiplicationTiles);
-    console.log(multiplicationTiles.sort(function() { return Math.random() - 0.5 })); // mieszanie tablicy
-    console.log(resultTiles);
-    console.log(gameTab);
-
 
     $('.start').on( "click", function() {
         startGame();
     });
-    var numbertest = "278 X 292";
-    var x =parseInt(numbertest);
-    console.log(x.length);
-    var y = parseInt(numbertest.slice(x.length+6));
-    // parseInt("column5".slice(-1), 10);
-    console.log(x)
-    console.log(y)
-
-
 
 
 
