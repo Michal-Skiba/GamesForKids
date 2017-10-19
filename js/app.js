@@ -1,11 +1,11 @@
-    const numberOfTiles = 20;
-    const tilesOnRow = 5;
+    let numberOfTiles = 20;
+    let tilesOnRow = 5;
     let moves = 0;
     let points = 0;
     let tiles = [];
     let takenTiles = [];
     let canTake = 'true';
-    let max = 8;
+    let max = 15;
     let min = 1;
     let resultTiles = [];
     let multiplicationTiles = [];
@@ -110,7 +110,7 @@
             $('.game').empty();
             let endBoard = $('<div class="endBoard"></div>');
             let stringInscription = "Gratulacje ! Skończyłeś w "  + moves + " ruchach";
-            let endInscription = $('<p class="endInscription"></p>');// DOKOŃCZ
+            let endInscription = $('<p class="endInscription"></p>');
             endInscription.append(stringInscription);
             endBoard.append(endInscription);
             $('.game').append(endBoard)
@@ -129,6 +129,58 @@
 
     $('#moves').text(moves);
     $('#points').text(points);
+    $('#medium').css('border', '2px solid red');
+    $('#mediumNumbers').css('border', '2px solid red');
+
+    $('#easy').on( "click", function() {
+        numberOfTiles = 15;
+        tilesOnRow = 3;
+        $(this).css('border', '2px solid red');
+        $('#medium').css('border', 'none');
+        $('#hard').css('border', 'none');
+    });
+
+    $('#medium').on( "click", function() {
+        numberOfTiles = 20;
+        tilesOnRow = 5;
+        $(this).css('border', '2px solid red');
+        $('#easy').css('border', 'none');
+        $('#hard').css('border', 'none');
+    });
+
+    $('#hard').on( "click", function() {
+        numberOfTiles = 30;
+        tilesOnRow = 6;
+        $(this).css('border', '2px solid red');
+        $('#medium').css('border', 'none');
+        $('#easy').css('border', 'none');
+    });
+
+    $('#easyNumbers').on( "click", function() {
+        min = 1;
+        max = 8;
+        $(this).css('border', '2px solid red');
+        $('#mediumNumbers').css('border', 'none');
+        $('#hardNumbers').css('border', 'none');
+    });
+
+    $('#mediumNumbers').on( "click", function() {
+        min = 1;
+        max = 15;
+        $(this).css('border', '2px solid red');
+        $('#hardNumbers').css('border', 'none');
+        $('#easyNumbers').css('border', 'none');
+
+    });
+
+    $('#hardNumbers').on( "click", function() {
+        min = 1;
+        max = 20;
+        $(this).css('border', '2px solid red');
+        $('#mediumNumbers').css('border', 'none');
+        $('#easyNumbers').css('border', 'none');
+
+    });
 
 
     $(function(){
