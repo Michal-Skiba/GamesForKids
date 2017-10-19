@@ -21,8 +21,34 @@
         <button class="start">Zacznij grę !</button>
     </section>
     <footer>
-        <div class="points"></div>
-        <div class="moves"></div>
+        <div id="leftFooter">
+            <div class="resultsPlayer"><p>Twoje punkty: </p><p id="points"></p></div>
+            <div class="resultsPlayer"><p>Liczba wykonanych ruchów: </p><p id="moves"></p></div>
+        </div>
+        <div id="middleFooter">
+            <p>Ustawi poziom trudności:</p>
+            <button id="easy">
+                Łatwy
+            </button>
+            <button id="medium">
+                Średni
+            </button>
+            <button id="hard">
+                Trudny
+            </button>
+        </div>
+        <div id="rightFooter">
+            <p>Ustaw zakres liczbowy:</p>
+            <button id="easyNumbers">
+                Łatwy: 1-8
+            </button>
+            <button id="mediumNumbers">
+                Średni: 1-15
+            </button>
+            <button id="hardNumbers">
+                Trudny: 1-20
+            </button>
+        </div>
     </footer>
 </body>
 <script src="js/out.js"></script>

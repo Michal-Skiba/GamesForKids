@@ -27,15 +27,40 @@ section .game {
   flex-wrap: wrap;
 }
 
-section .game p {
-  font-size: 18px;
+section .game .tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+section .game .tile p {
+  display: none;
+  font-size: 25px;
+  font-weight: bold;
   color: dodgerblue;
+}
+
+section .game .endInscription {
+  font-size: 24px;
+  color: red;
   margin-top: 44%;
+  text-align: center;
 }
 
 footer {
   width: 100vw;
   height: 15vh;
+}
+
+footer .resultsPlayer {
+  flex-wrap: wrap;
+  color: green;
+  font-size: 10px;
+}
+
+footer .resultsPlayer p:last-of-type {
+  color: red;
+  font-weight: bold;
 }
 
 @media only screen and (min-width: 451px) and (max-width: 1200px) {
@@ -54,12 +79,24 @@ footer {
     border: 2px solid purple;
   }
 
-  section .game p {
-    font-size: 25px;
-    margin-top: 23%;
+  section .game .tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  footer {
+  section .game .tile p {
+    font-size: 30px;
+  }
+
+  section .game .tile .endInscription {
+    font-size: 36px;
+    color: red;
+    margin-top: 44%;
+    text-align: center;
+  }
+
+  section footer {
     height: 20vh;
   }
 }
@@ -71,14 +108,25 @@ footer {
   }
 
   section .game {
-    position: relative;
     width: 70%;
     border: 2px solid purple;
   }
 
-  section .game p {
+  section .game .tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  section .game .tile p {
+    font-size: 50px;
+  }
+
+  section .game .endInscription {
     font-size: 40px;
-    margin-top: 23%;
+    color: red;
+    margin-top: 44%;
+    text-align: center;
   }
 }
 
@@ -99,4 +147,25 @@ footer {
 
 .game {
   background: blue;
+}
+
+.game .endBoard {
+  width: 100%;
+  height: 100%;
+  background: url(/assets/backgroundMath.jpg) no-repeat center/cover;
+}
+
+footer {
+  display: flex;
+}
+
+footer > div {
+  width: 33%;
+  height: 100%;
+}
+
+footer .resultsPlayer {
+  display: flex;
+  flex-flow: wrap;
+  height: 50%;
 }

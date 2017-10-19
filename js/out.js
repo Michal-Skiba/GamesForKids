@@ -85,7 +85,6 @@ var gameTab = [];
 
 var startGame = function startGame() {
     var board = $('.game').empty(); // Clean game board
-    console.log(board);
     canTake = 'true';
     moves = 0;
     resultTiles = []; //Clean arrays
@@ -150,11 +149,10 @@ var startGame = function startGame() {
     }
 };
 var tileClick = function tileClick(element) {
-    if (canTake) {
+    if (canTake && element.hasClass('tile')) {
         if ((takenTiles.length === 0 || takenTiles[0].data("index") !== element.data("index")) && takenTiles.length < 2) {
-            console.log(element.data("index"));
             element.css('background', 'yellow');
-            element.find('p').css('display', 'block');
+            element.find('p').css('display', 'flex');
             takenTiles.push(element);
         }
         if (takenTiles.length === 2) {
@@ -169,21 +167,31 @@ var tileClick = function tileClick(element) {
                 }, 1500);
             }
             moves++;
-            //$('.moves').html(moves) // I HAVE TO ADD THIS TO HTML LATER !!!!!!!!!!!!!!!!
+            $('#moves').text(moves);
+            $('#points').text(points);
         }
     }
 };
 
 var removeTiles = function removeTiles() {
+
     takenTiles[0].css('background', 'blue');
     takenTiles[0].find('p').css("display", "none");
     takenTiles[1].css('background', 'blue');
     takenTiles[1].find('p').css("display", "none");
+    takenTiles[0].removeClass("tile");
+    takenTiles[1].removeClass("tile");
     canTake = true;
     takenTiles = [];
     points++;
     if (points >= numberOfTiles / 2) {
-        alert('Gratulacje ! Skończyłeś w ' + moves + "ruchach");
+        $('.game').empty();
+        var endBoard = $('<div class="endBoard"></div>');
+        var stringInscription = "Gratulacje ! Skończyłeś w " + moves + " ruchach";
+        var endInscription = $('<p class="endInscription"></p>'); // DOKOŃCZ
+        endInscription.append(stringInscription);
+        endBoard.append(endInscription);
+        $('.game').append(endBoard);
     }
 };
 
@@ -195,6 +203,9 @@ var resetTiles = function resetTiles() {
     takenTiles = [];
     canTake = true;
 };
+
+$('#moves').text(moves);
+$('#points').text(points);
 
 $(function () {
     $('.start').on("click", function () {
