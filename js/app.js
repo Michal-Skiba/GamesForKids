@@ -11,6 +11,15 @@
     let multiplicationTiles = [];
     let gameTab = [];
 
+    //Sounds
+    let missedSound = new Audio('../sounds/beep15.mp3');
+    let endGameSound = new Audio('../sounds/applause.mp3');
+    let hitSound = new Audio('../sounds/hit.mp3');
+    let showTileSound = new Audio('../sounds/show.mp3');
+    let changeButton = new Audio('../sounds/shotgun.mp3');
+    let startSound = new Audio('../sounds/happykids.mp3');
+
+
     let startGame = ()=>{
         let board = $('.game').empty(); // Clean game board
         canTake = 'true';
@@ -21,7 +30,6 @@
         tiles = [];
         let tileWidth = 100/tilesOnRow;
         let tileHeight = 100 / (numberOfTiles/tilesOnRow);
-
         while(numberOfTiles/2>resultTiles.length){ // Create answer and question array
             let number1 = Math.floor( Math.random() * ( max - min + 1 ) + min );
             let number2 = Math.floor( Math.random() * ( max - min + 1 ) + min );
@@ -68,11 +76,16 @@
             tile.css('border', "1px solid red"); //Helples later DELETE or not !!
             tile.on('click',function() {tileClick($(this))}); // listener to tiles
         }
+        startSound.play();
+
 
     };
     let tileClick = (element) => {
         if (canTake && element.hasClass('tile')){
             if ((takenTiles.length === 0 || takenTiles[0].data("index") !== element.data("index")) && takenTiles.length < 2) {
+                showTileSound.pause();
+                showTileSound.currentTime = 0;
+                showTileSound.play();
                 element.css('background', 'yellow');
                 element.find('p').css('display', 'flex');
                 takenTiles.push(element);
@@ -96,7 +109,7 @@
     };
 
     let removeTiles = () =>{
-
+        hitSound.play();
         takenTiles[0].css('background', 'blue');
         takenTiles[0].find('p').css("display", "none");
         takenTiles[1].css('background', 'blue');
@@ -108,6 +121,7 @@
         points++;
         if (points >= numberOfTiles / 2) {
             $('.game').empty();
+            endGameSound.play();
             let endBoard = $('<div class="endBoard"></div>');
             let stringInscription = "Gratulacje ! Skończyłeś w "  + moves + " ruchach";
             let endInscription = $('<p class="endInscription"></p>');
@@ -119,6 +133,7 @@
     };
 
     let resetTiles = () =>{
+        missedSound.play();
         takenTiles[0].css('background', "url('../assets/math.png') no-repeat center/cover");
         takenTiles[1].css('background', "url('../assets/math.png') no-repeat center/cover");
         takenTiles[1].find('p').css('display', 'none');
@@ -133,14 +148,20 @@
     $('#mediumNumbers').css('border', '2px solid red');
 
     $('#easy').on( "click", function() {
-        numberOfTiles = 15;
-        tilesOnRow = 5;
+        changeButton.pause();
+        changeButton.currentTime = 0;
+        changeButton.play();
+        numberOfTiles = 16;
+        tilesOnRow = 4;
         $(this).css('border', '2px solid red');
         $('#medium').css('border', 'none');
         $('#hard').css('border', 'none');
     });
 
     $('#medium').on( "click", function() {
+        changeButton.pause();
+        changeButton.currentTime = 0;
+        changeButton.play();
         numberOfTiles = 20;
         tilesOnRow = 5;
         $(this).css('border', '2px solid red');
@@ -149,6 +170,9 @@
     });
 
     $('#hard').on( "click", function() {
+        changeButton.pause();
+        changeButton.currentTime = 0;
+        changeButton.play();
         numberOfTiles = 30;
         tilesOnRow = 6;
         $(this).css('border', '2px solid red');
@@ -157,6 +181,9 @@
     });
 
     $('#easyNumbers').on( "click", function() {
+        changeButton.pause();
+        changeButton.currentTime = 0;
+        changeButton.play();
         min = 1;
         max = 8;
         $(this).css('border', '2px solid red');
@@ -165,6 +192,9 @@
     });
 
     $('#mediumNumbers').on( "click", function() {
+        changeButton.pause();
+        changeButton.currentTime = 0;
+        changeButton.play();
         min = 1;
         max = 15;
         $(this).css('border', '2px solid red');
@@ -174,6 +204,9 @@
     });
 
     $('#hardNumbers').on( "click", function() {
+        changeButton.pause();
+        changeButton.currentTime = 0;
+        changeButton.play();
         min = 1;
         max = 20;
         $(this).css('border', '2px solid red');

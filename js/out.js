@@ -83,6 +83,14 @@ var resultTiles = [];
 var multiplicationTiles = [];
 var gameTab = [];
 
+//Sounds
+var missedSound = new Audio('../sounds/beep15.mp3');
+var endGameSound = new Audio('../sounds/applause.mp3');
+var hitSound = new Audio('../sounds/hit.mp3');
+var showTileSound = new Audio('../sounds/show.mp3');
+var changeButton = new Audio('../sounds/shotgun.mp3');
+var startSound = new Audio('../sounds/happykids.mp3');
+
 var startGame = function startGame() {
     var board = $('.game').empty(); // Clean game board
     canTake = 'true';
@@ -93,7 +101,6 @@ var startGame = function startGame() {
     tiles = [];
     var tileWidth = 100 / tilesOnRow;
     var tileHeight = 100 / (numberOfTiles / tilesOnRow);
-
     while (numberOfTiles / 2 > resultTiles.length) {
         // Create answer and question array
         var number1 = Math.floor(Math.random() * (max - min + 1) + min);
@@ -147,10 +154,14 @@ var startGame = function startGame() {
             tileClick($(this));
         }); // listener to tiles
     }
+    startSound.play();
 };
 var tileClick = function tileClick(element) {
     if (canTake && element.hasClass('tile')) {
         if ((takenTiles.length === 0 || takenTiles[0].data("index") !== element.data("index")) && takenTiles.length < 2) {
+            showTileSound.pause();
+            showTileSound.currentTime = 0;
+            showTileSound.play();
             element.css('background', 'yellow');
             element.find('p').css('display', 'flex');
             takenTiles.push(element);
@@ -174,7 +185,7 @@ var tileClick = function tileClick(element) {
 };
 
 var removeTiles = function removeTiles() {
-
+    hitSound.play();
     takenTiles[0].css('background', 'blue');
     takenTiles[0].find('p').css("display", "none");
     takenTiles[1].css('background', 'blue');
@@ -186,6 +197,7 @@ var removeTiles = function removeTiles() {
     points++;
     if (points >= numberOfTiles / 2) {
         $('.game').empty();
+        endGameSound.play();
         var endBoard = $('<div class="endBoard"></div>');
         var stringInscription = "Gratulacje ! Skończyłeś w " + moves + " ruchach";
         var endInscription = $('<p class="endInscription"></p>');
@@ -196,6 +208,7 @@ var removeTiles = function removeTiles() {
 };
 
 var resetTiles = function resetTiles() {
+    missedSound.play();
     takenTiles[0].css('background', "url('../assets/math.png') no-repeat center/cover");
     takenTiles[1].css('background', "url('../assets/math.png') no-repeat center/cover");
     takenTiles[1].find('p').css('display', 'none');
@@ -210,14 +223,20 @@ $('#medium').css('border', '2px solid red');
 $('#mediumNumbers').css('border', '2px solid red');
 
 $('#easy').on("click", function () {
-    numberOfTiles = 15;
-    tilesOnRow = 5;
+    changeButton.pause();
+    changeButton.currentTime = 0;
+    changeButton.play();
+    numberOfTiles = 16;
+    tilesOnRow = 4;
     $(this).css('border', '2px solid red');
     $('#medium').css('border', 'none');
     $('#hard').css('border', 'none');
 });
 
 $('#medium').on("click", function () {
+    changeButton.pause();
+    changeButton.currentTime = 0;
+    changeButton.play();
     numberOfTiles = 20;
     tilesOnRow = 5;
     $(this).css('border', '2px solid red');
@@ -226,6 +245,9 @@ $('#medium').on("click", function () {
 });
 
 $('#hard').on("click", function () {
+    changeButton.pause();
+    changeButton.currentTime = 0;
+    changeButton.play();
     numberOfTiles = 30;
     tilesOnRow = 6;
     $(this).css('border', '2px solid red');
@@ -234,6 +256,9 @@ $('#hard').on("click", function () {
 });
 
 $('#easyNumbers').on("click", function () {
+    changeButton.pause();
+    changeButton.currentTime = 0;
+    changeButton.play();
     min = 1;
     max = 8;
     $(this).css('border', '2px solid red');
@@ -242,6 +267,9 @@ $('#easyNumbers').on("click", function () {
 });
 
 $('#mediumNumbers').on("click", function () {
+    changeButton.pause();
+    changeButton.currentTime = 0;
+    changeButton.play();
     min = 1;
     max = 15;
     $(this).css('border', '2px solid red');
@@ -250,6 +278,9 @@ $('#mediumNumbers').on("click", function () {
 });
 
 $('#hardNumbers').on("click", function () {
+    changeButton.pause();
+    changeButton.currentTime = 0;
+    changeButton.play();
     min = 1;
     max = 20;
     $(this).css('border', '2px solid red');
