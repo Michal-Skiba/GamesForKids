@@ -134,8 +134,8 @@
 
     let resetTiles = () =>{
         missedSound.play();
-        takenTiles[0].css('background', "url('../assets/math.png') no-repeat center/cover");
-        takenTiles[1].css('background', "url('../assets/math.png') no-repeat center/cover");
+        takenTiles[0].css('background', "url('assets/math.png') no-repeat center/cover");
+        takenTiles[1].css('background', "url('assets/math.png') no-repeat center/cover");
         takenTiles[1].find('p').css('display', 'none');
         takenTiles[0].find('p').css('display', 'none');
         takenTiles = [];
