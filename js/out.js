@@ -83,7 +83,6 @@ var resultTiles = [];
 var multiplicationTiles = [];
 var gameTab = [];
 
-//Sounds
 var missedSound = new Audio('sounds/beep15.mp3');
 var endGameSound = new Audio('sounds/applause.mp3');
 var hitSound = new Audio('sounds/hit.mp3');
@@ -93,12 +92,17 @@ var startSound = new Audio('sounds/happykids.mp3');
 
 var startGame = function startGame() {
     var board = $('.game').empty(); // Clean game board
+    startSound.play();
     canTake = 'true';
     moves = 0;
+    points = 0;
     resultTiles = []; //Clean arrays
     multiplicationTiles = [];
     takenTiles = [];
     tiles = [];
+    gameTab = [];
+    $('#moves').text(0);
+    $('#points').text(0);
     var tileWidth = 100 / tilesOnRow;
     var tileHeight = 100 / (numberOfTiles / tilesOnRow);
     while (numberOfTiles / 2 > resultTiles.length) {
@@ -113,6 +117,8 @@ var startGame = function startGame() {
             resultTiles.push(result);
         }
     }
+    console.log("multiplicationTiles", multiplicationTiles);
+    console.log('resultTiles', resultTiles);
 
     for (var i = 0; i < numberOfTiles / 2; i++) {
         //Make one array for question and answer array
@@ -147,6 +153,7 @@ var startGame = function startGame() {
         } else {
             tile.attr('data-result', gameTab[_i]);
         }
+
         tile.css('width', '' + tileWidth + "%");
         tile.css('height', '' + tileHeight + "%");
         tile.css('border', "1px solid red"); //Helples later DELETE or not !!
@@ -154,17 +161,16 @@ var startGame = function startGame() {
             tileClick($(this));
         }); // listener to tiles
     }
-    startSound.play();
 };
 var tileClick = function tileClick(element) {
     if (canTake && element.hasClass('tile')) {
         if ((takenTiles.length === 0 || takenTiles[0].data("index") !== element.data("index")) && takenTiles.length < 2) {
-            showTileSound.pause();
-            showTileSound.currentTime = 0;
-            showTileSound.play();
             element.css('background', 'yellow');
             element.find('p').css('display', 'flex');
             takenTiles.push(element);
+            showTileSound.pause();
+            showTileSound.currentTime = 0;
+            showTileSound.play();
         }
         if (takenTiles.length === 2) {
             canTake = false;
@@ -185,7 +191,6 @@ var tileClick = function tileClick(element) {
 };
 
 var removeTiles = function removeTiles() {
-    hitSound.play();
     takenTiles[0].css('background', 'blue');
     takenTiles[0].find('p').css("display", "none");
     takenTiles[1].css('background', 'blue');
@@ -195,6 +200,7 @@ var removeTiles = function removeTiles() {
     canTake = true;
     takenTiles = [];
     points++;
+    hitSound.play();
     if (points >= numberOfTiles / 2) {
         $('.game').empty();
         endGameSound.play();
@@ -223,69 +229,69 @@ $('#medium').css('border', '2px solid red');
 $('#mediumNumbers').css('border', '2px solid red');
 
 $('#easy').on("click", function () {
-    changeButton.pause();
-    changeButton.currentTime = 0;
-    changeButton.play();
     numberOfTiles = 16;
     tilesOnRow = 4;
     $(this).css('border', '2px solid red');
     $('#medium').css('border', 'none');
     $('#hard').css('border', 'none');
-});
-
-$('#medium').on("click", function () {
     changeButton.pause();
     changeButton.currentTime = 0;
     changeButton.play();
+});
+
+$('#medium').on("click", function () {
     numberOfTiles = 20;
     tilesOnRow = 5;
     $(this).css('border', '2px solid red');
     $('#easy').css('border', 'none');
     $('#hard').css('border', 'none');
-});
-
-$('#hard').on("click", function () {
     changeButton.pause();
     changeButton.currentTime = 0;
     changeButton.play();
+});
+
+$('#hard').on("click", function () {
     numberOfTiles = 30;
     tilesOnRow = 6;
     $(this).css('border', '2px solid red');
     $('#medium').css('border', 'none');
     $('#easy').css('border', 'none');
-});
-
-$('#easyNumbers').on("click", function () {
     changeButton.pause();
     changeButton.currentTime = 0;
     changeButton.play();
+});
+
+$('#easyNumbers').on("click", function () {
     min = 1;
     max = 8;
     $(this).css('border', '2px solid red');
     $('#mediumNumbers').css('border', 'none');
     $('#hardNumbers').css('border', 'none');
-});
-
-$('#mediumNumbers').on("click", function () {
     changeButton.pause();
     changeButton.currentTime = 0;
     changeButton.play();
+});
+
+$('#mediumNumbers').on("click", function () {
     min = 1;
     max = 15;
     $(this).css('border', '2px solid red');
     $('#hardNumbers').css('border', 'none');
     $('#easyNumbers').css('border', 'none');
-});
-
-$('#hardNumbers').on("click", function () {
     changeButton.pause();
     changeButton.currentTime = 0;
     changeButton.play();
+});
+
+$('#hardNumbers').on("click", function () {
     min = 1;
     max = 20;
     $(this).css('border', '2px solid red');
     $('#mediumNumbers').css('border', 'none');
     $('#easyNumbers').css('border', 'none');
+    changeButton.pause();
+    changeButton.currentTime = 0;
+    changeButton.play();
 });
 
 $(function () {
