@@ -12,12 +12,12 @@
     let gameTab = [];
 
     //Sounds
-    let missedSound = new Audio('../sounds/beep15.mp3');
-    let endGameSound = new Audio('../sounds/applause.mp3');
-    let hitSound = new Audio('../sounds/hit.mp3');
-    let showTileSound = new Audio('../sounds/show.mp3');
-    let changeButton = new Audio('../sounds/shotgun.mp3');
-    let startSound = new Audio('../sounds/happykids.mp3');
+    let missedSound = new Audio('sounds/beep15.mp3');
+    let endGameSound = new Audio('sounds/applause.mp3');
+    let hitSound = new Audio('sounds/hit.mp3');
+    let showTileSound = new Audio('sounds/show.mp3');
+    let changeButton = new Audio('sounds/shotgun.mp3');
+    let startSound = new Audio('sounds/happykids.mp3');
 
 
     let startGame = ()=>{

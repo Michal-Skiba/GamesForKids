@@ -84,12 +84,12 @@ var multiplicationTiles = [];
 var gameTab = [];
 
 //Sounds
-var missedSound = new Audio('../sounds/beep15.mp3');
-var endGameSound = new Audio('../sounds/applause.mp3');
-var hitSound = new Audio('../sounds/hit.mp3');
-var showTileSound = new Audio('../sounds/show.mp3');
-var changeButton = new Audio('../sounds/shotgun.mp3');
-var startSound = new Audio('../sounds/happykids.mp3');
+var missedSound = new Audio('sounds/beep15.mp3');
+var endGameSound = new Audio('sounds/applause.mp3');
+var hitSound = new Audio('sounds/hit.mp3');
+var showTileSound = new Audio('sounds/show.mp3');
+var changeButton = new Audio('sounds/shotgun.mp3');
+var startSound = new Audio('sounds/happykids.mp3');
 
 var startGame = function startGame() {
     var board = $('.game').empty(); // Clean game board
