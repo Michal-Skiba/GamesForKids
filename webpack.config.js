@@ -42,7 +42,7 @@ module.exports = {
                             emitFile: true,
                             name: 'assets/[name].[ext]',
                             context: '',
-                            publicPath: '/'
+                            publicPath: '../'
                         }
                     }
                 ]

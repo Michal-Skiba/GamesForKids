@@ -134,7 +134,7 @@
 
     $('#easy').on( "click", function() {
         numberOfTiles = 15;
-        tilesOnRow = 3;
+        tilesOnRow = 5;
         $(this).css('border', '2px solid red');
         $('#medium').css('border', 'none');
         $('#hard').css('border', 'none');
