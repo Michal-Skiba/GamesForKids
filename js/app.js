@@ -85,6 +85,7 @@
             tile.on('click',function() {tileClick($(this))}); // listener to tiles
         }
     };
+
     let tileClick = (element) => {
         if (canTake && element.hasClass('tile')){
             if ((takenTiles.length === 0 || takenTiles[0].data("index") !== element.data("index")) && takenTiles.length < 2) {
